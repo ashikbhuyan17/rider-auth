@@ -1,11 +1,15 @@
 import { Link } from 'react-router-dom';
 import "./Header.css"
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from '../../App';
 const Header = () => {
+    const [loggedInUser, setLoggedInUser] = useContext(UserContext)
+    console.log(loggedInUser)
+
     return (
         <div className="headerContainer">
             <div>
-                <h1><Link to="/home" style={{ color: "#fff", textDecoration: "none" }}>Uba Riders</Link></h1>
+                <h1><Link to="/home" style={{ color: "#fff", textDecoration: "none" }}>Pathao Riders</Link></h1>
             </div>
             <div>
 
@@ -22,9 +26,15 @@ const Header = () => {
                     <li>
                         <Link to="/contact" className="header-link">Contact</Link>
                     </li>
-                    <li>
-                        <Link to="/login" className="header-link" style={{ background: "orange", color: "#fff", padding: "12px 20px", borderRadius: "5px" }}>Login</Link>
-                    </li>
+                    {
+                        loggedInUser.email ? <h5>{loggedInUser.displayName}</h5> :
+                            <li>
+                                <Link to="/login" className="header-link" style={{ background: "orange", color: "#fff", padding: "12px 20px", borderRadius: "5px" }}>
+                                    Login
+                                </Link>
+                            </li>
+                    }
+
                 </ul>
 
 
