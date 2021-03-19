@@ -33,16 +33,17 @@ function App() {
           <Route path="/home">
             <Home />
           </Route>
-          <PrivateRoute path="/riderDetails/:id">
+          <PrivateRoute path="/destination/:id">
+            <Destination />
+          </PrivateRoute>
+          <PrivateRoute path="/destination">
             <Destination />
           </PrivateRoute>
 
           <Route path="/login">
             <Login />
           </Route>
-          <PrivateRoute path="/destination">
-            <Destination />
-          </PrivateRoute>
+
 
         </Switch>
       </Router>

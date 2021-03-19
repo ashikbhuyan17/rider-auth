@@ -7,7 +7,7 @@ const Rider = (props) => {
     let history = useHistory();
     function handleClick() {
         console.log("success");
-        history.push(`/riderDetails/${id}`);
+        history.push(`/destination/${id}`);
     }
     return (
         <div>

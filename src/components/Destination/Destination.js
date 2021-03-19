@@ -6,6 +6,7 @@ const Destination = () => {
     const [search, setSearch] = useState(false)
 
     const { id } = useParams()
+    console.log(id)
     const [data, setData] = useState(fakeData)
     console.log(data);
     const a = data.find(data => data.id == id)
