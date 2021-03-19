@@ -25,7 +25,7 @@ const Destination = () => {
                     width="600" height="450" allowfullscreen="" loading="lazy"></iframe>
             </div>
 
-            { search ? <div>
+            { id ? search ? <div>
                 <h5>{a.name} </h5>
                 <img src={a.photo} alt="" width="200px" />
             </div> :
@@ -36,7 +36,19 @@ const Destination = () => {
                         <button onClick={handleSearch}>Search</button>
 
                     </form>
-                </div>
+                </div> :
+                search ? <div>
+                    <h5>name : ashik</h5>
+
+                </div> :
+                    <div>
+                        <form action="">
+                            <input type="text" name="" placeholder="london" /><br /><br />
+                            <input type="text" name="" placeholder="Dhaka" /> <br /><br />
+                            <button onClick={handleSearch}>Search</button>
+
+                        </form>
+                    </div>
             }
         </div>
     );
