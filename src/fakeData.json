@@ -1,0 +1,22 @@
+[
+    {
+        "id": 2002,
+        "name": "Bike",
+        "photo": "https://i.ibb.co/V3gw7zV/Frame.png"
+    },
+    {
+        "id": 1990,
+        "name": "Car",
+        "photo": "https://i.ibb.co/y5x7Dn3/Frame-2.png"
+    },
+    {
+        "id": 2011,
+        "name": "Bus",
+        "photo": "https://i.ibb.co/1LscgBb/Frame-1.png"
+    },
+    {
+        "id": 2012,
+        "name": "Train",
+        "photo": "https://i.ibb.co/Yk2q3td/Group.png"
+    }
+]
