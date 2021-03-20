@@ -5,6 +5,9 @@ import { useHistory, useLocation } from "react-router";
 import { UserContext } from "../../App";
 import { Form, Button } from 'react-bootstrap';
 import firebaseConfig from "../firebase.config";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+
 
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -34,7 +37,7 @@ const Login = () => {
     const fbProvider = new firebase.auth.FacebookAuthProvider();
 
     // for google signIn
-    const handleSignIn = () => {
+    const googleSignIn = () => {
         firebase.auth().signInWithPopup(googleProvider)
             .then(res => {
                 console.log(res)
@@ -55,44 +58,6 @@ const Login = () => {
             })
     }
 
-    // for facebook  signIn
-    const handleFbSignIn = () => {
-        firebase.auth().signInWithPopup(fbProvider)
-            .then(result => {
-
-                const credential = result.credential;
-                debugger
-                const user = result.user;
-                console.log("fb user ", user)
-            })
-            .catch((error) => {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                // The email of the user's account used.
-                var email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                var credential = error.credential;
-
-                // ...
-            });
-    }
-    const handleSignOut = () => {
-        firebase.auth().signOut()
-            .then((res) => {
-                const signOutUser = {
-                    isSignedIn: false,
-                    displayName: '',
-                    email: '',
-                    name: '',
-                    photoURL: '',
-                }
-                setUser(signOutUser)
-            })
-            .catch((error) => {
-                // An error happened.
-            });
-    }
     console.log(user)
 
     const handleBlur = (event) => {
@@ -113,6 +78,12 @@ const Login = () => {
         }
     }
     const handleSubmit = (e) => {
+        if (user.password !== user.confirm_password) {
+            const newUserInfo = { ...user }
+            newUserInfo.error = "password doesn't match"
+            setUser(newUserInfo)
+
+        }
         if (newUser && user.email && user.password === user.confirm_password) {
             firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                 .then((res) => {
@@ -162,7 +133,6 @@ const Login = () => {
         }
         e.preventDefault()
     }
-    // update user info   => name ke firebase patanu
     const updateUserName = (name) => {
         console.log(name)
         const user = firebase.auth().currentUser;
@@ -177,13 +147,6 @@ const Login = () => {
     console.log(user.displayName)
     return (
         <div>
-            {
-                user.isSignedIn ? <button onClick={handleSignOut}>sign out</button> :
-                    <button onClick={handleSignIn}>sign in</button>
-            } <br /><br />
-
-            {/* facebook sign in */}
-            <button onClick={handleFbSignIn}>login using facebook</button>
 
             {
                 user.isSignedIn && <div>
@@ -201,19 +164,31 @@ const Login = () => {
                     <Form.Group controlId="formBasicEmail">
 
                         {
-                            newUser && <input type="text" name="name" onBlur={handleBlur} onFocus={handleBlur} placeholder="your name" />
+                            newUser && <Form.Group controlId="formBasicName">
+                                <Form.Control type="text" name="name" onBlur={handleBlur} onFocus={handleBlur} placeholder="Name" required />
+                                {/* <input type="text" name="name" onBlur={handleBlur} onFocus={handleBlur} placeholder="your name" /> */}
+                            </Form.Group>
                         }
                     </Form.Group>
 
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Control type="email" name='email' onBlur={handleBlur} onFocus={handleBlur} placeholder="your email" required />
+                        <Form.Control type="email" name='email' onBlur={handleBlur} onFocus={handleBlur} placeholder="Email" required />
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Control type="password" name="password" onBlur={handleBlur} placeholder="password" required />
+                        <Form.Control type="password" name="password" onBlur={handleBlur} placeholder="Password" required />
+                        <span id="passwordHelpBlock" class="form-text text-muted ">
+                            Your password must be 6-20 characters long, contain letters and numbers.
+                        </span>
+                    </Form.Group>
+                    <Form.Group>
+                        {
+                            user.success ? <p style={{ color: 'green' }}> user {newUser ? 'created' : 'logged In'} successfully</p> :
+                                <p style={{ color: 'red' }}> {user.error}</p>
+                        }
                     </Form.Group>
                     {
                         newUser && <Form.Group controlId="formBasicEmail">
-                            <Form.Control type="password" name="confirm_password" onBlur={handleBlur} placeholder="confirm_password" required />
+                            <Form.Control type="password" name="confirm_password" onBlur={handleBlur} placeholder="Confirm Password" required />
                         </Form.Group>
                     }
                     <Button type="submit" >{newUser ? "Sign up" : "Log In"}</Button>
@@ -222,13 +197,19 @@ const Login = () => {
                         <button style={{ background: 'none', color: 'red', outline: 'none', border: 'none', textDecoration: 'underline', fontSize: '20px' }}
                             onClick={() => setNewUser(!newUser)} name="newUser">{newUser ? 'signIn' : 'create an account'}</button>
                     </Form.Group>
+                    <Form.Group>
+                        <button onClick={googleSignIn} type="button" class="btn btn-outline-success"><FontAwesomeIcon icon={faFacebook} />
+                            <span class="p-4">Continue with Google</span>
+                        </button>
+                    </Form.Group>
+
                 </Form>
             </div>
 
-            {
+            {/* {
                 user.success ? <h2 style={{ color: 'green' }}> user {newUser ? 'created' : 'logged In'} successfully</h2> :
                     <h5 style={{ color: 'red' }}> {user.error}</h5>
-            }
+            } */}
 
         </div>
     );

@@ -1,0 +1,20 @@
+.destination {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 20px;
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 20px;
+}
+.map iframe {
+    width: 100%;
+    height: 80vh;
+    border: none;
+    border-radius: 10px;
+}
+@media only screen and (max-width: 600px) {
+    .destination {
+        grid-template-columns: 1fr;
+        /* background-color: aqua; */
+    }
+}

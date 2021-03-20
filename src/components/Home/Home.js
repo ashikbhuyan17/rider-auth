@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import fakeData from '../../fakeData.json'
 import Rider from '../Rider/Rider';
 const Home = () => {
-    const [data, setData] = useState(fakeData)
+    const [data, setData] = useState([])
     console.log(data);
+    useEffect(() => {
+        setData(fakeData)
+    }, [])
     return (
-        <div>
-            <h1>this is home page</h1>
-
-            {
-                data.map(data => <Rider data={data}></Rider>)
-            }
-
+        <div
+            style={{ width: "80%", margin: "0 auto" }}
+            className="row ride-container"
+        >
+            {data.map((data) => (
+                <Rider data={data}></Rider>
+            ))}
         </div>
     );
 };
